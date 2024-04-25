@@ -2,7 +2,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const cors = require("cors");
 const bodyParser = require('body-parser');
-
+const verifyToken = require("./app/middlewares/auth_middleware");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -12,7 +12,7 @@ app.use(cors());
 
 // Contoh database pengguna (bisa diganti dengan database sesungguhnya)
 const users = [
-  { id: 1, username: 'user1', password: 'password1' },
+  { id: 1, username: 'admin', password: 'admin' },
   { id: 2, username: 'user2', password: 'password2' }
 ];
 
@@ -39,31 +39,6 @@ app.post('/login', (req, res) => {
     res.status(401).json({ error: 'Invalid username or password' });
   }
 });
-
-// Middleware untuk verifikasi token JWT
-function verifyToken(req, res, next) {
-  // Ambil token dari header Authorization
-  const token = req.headers['authorization'];
-
-  if (typeof token !== 'undefined') {
-    // Split token dari format 'Bearer <token>'
-    const tokenParts = token.split(' ');
-    const tokenValue = tokenParts[1];
-    jwt.verify(tokenValue, 'secretkey', (err, authData) => {
-      if (err) {
-        // Jika token tidak valid, kirim respons error
-        res.status(403).json({ error: 'Forbidden' });
-      } else {
-        // Jika token valid, simpan data otentikasi di objek request dan lanjutkan ke middleware berikutnya
-        req.authData = authData;
-        next();
-      }
-    });
-  } else {
-    // Jika tidak ada token, kirim respons error
-    res.status(401).json({ error: 'Unauthorized' });
-  }
-}
 
 app.get("/", (req,res) => {
     res.json({

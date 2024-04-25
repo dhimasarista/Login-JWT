@@ -41,8 +41,12 @@ function LoginPage() {
   };
 
   return (
-    <div className="login-container">
-      <h1>Login Page</h1>
+    <div className="login-container" style={{ 
+      backgroundColor: "#282c34",
+     }}>
+      <h1 style={{ 
+        color: "white"
+       }}>Login Page</h1>
       <form onSubmit={handleSubmit} className="login-form">
         <div className="form-group">
           <label htmlFor="username">Username:</label>
