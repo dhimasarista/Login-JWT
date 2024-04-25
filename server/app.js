@@ -71,14 +71,24 @@ app.get("/", (req,res) => {
     })
 });
 
+const employeesData = [
+  { id: 1, name: 'John Doe' },
+  { id: 2, name: 'Jane Smith' },
+  { id: 3, name: 'Bob Johnson' }
+];
+
 // Endpoint yang memerlukan otentikasi untuk diakses
 app.get('/employees', verifyToken, (req, res) => {
-  res.json({ message: 'List of employees', user: req.authData });
+  res.json({ message: 'List of employees', user: req.authData, data: employeesData });
 });
 
 app.get('/employee/:id', verifyToken, (req, res) => {
   const { id } = req.params;
-  res.json({ message: `Details of employee ${id}`, user: req.authData });
+  const employee = employeesData.find(emp => emp.id === parseInt(id));
+  if (!employee) {
+    return res.status(404).json({ message: 'Employee not found' });
+  }
+  res.json({ message: `Details of employee ${id}`, user: req.authData, data: employee });
 });
 
 console.clear();

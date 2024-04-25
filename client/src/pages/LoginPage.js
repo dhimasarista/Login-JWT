@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate  } from 'react-router-dom';
+import '../LoginPage.css'; // Import CSS file for styling
 
-function LoginPage({ setToken }) {
+function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const history = useNavigate ();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,8 +31,8 @@ function LoginPage({ setToken }) {
       // Simpan token ke sessionStorage
       sessionStorage.setItem('jwtToken', token);
 
-      // Set token dalam state aplikasi
-      setToken(token);
+      // Alihkan ke halaman /employees setelah berhasil login
+      history('/employees');
     } catch (error) {
       console.error('Login failed:', error);
       setError(error.message || 'Login failed. Please try again later.');
@@ -37,19 +40,31 @@ function LoginPage({ setToken }) {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h1>Login Page</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
         </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
-        <button type="submit">Login</button>
-        {error && <p>{error}</p>}
+        <button type="submit" className="login-btn">Login</button>
+        {error && <p className="error-msg">{error}</p>}
       </form>
     </div>
   );
