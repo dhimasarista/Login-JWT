@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate  } from 'react-router-dom';
+// import { useNavigate  } from 'react-router-dom';
 import '../LoginPage.css'; // Import CSS file for styling
 
 function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const history = useNavigate ();
+  // const history = useNavigate ();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -32,7 +32,8 @@ function LoginPage() {
       sessionStorage.setItem('jwtToken', token);
 
       // Alihkan ke halaman /employees setelah berhasil login
-      history('/employees');
+      // history('/employees');
+      window.location.href = '/employees';
     } catch (error) {
       console.error('Login failed:', error);
       setError(error.message || 'Login failed. Please try again later.');

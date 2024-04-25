@@ -22,6 +22,7 @@ function EmployeesPage() {
       }
 
       const data = await response.json();
+      console.log(data)
       setEmployees(data);
     } catch (error) {
       console.error('Failed to fetch employees:', error);
@@ -35,10 +36,11 @@ function EmployeesPage() {
   return (
     <div>
       <h1>Employees</h1>
+      <h3>{employees.message}</h3>
       <ul>
-      {employees.map(employee => (
+        {/* {employees["data"].map(employee => (
           <li key={employee.id}>{employee.name}</li>
-        ))}
+        ))} */}
       </ul>
     </div>
   );
